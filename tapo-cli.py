@@ -49,7 +49,7 @@ def x_authorization(content, endpoint):
 # No idea if this works on Windows, what are you, some kind of psychopath?
 def get_config():
     try:
-        file = open(os.path.expanduser('~') + '/.tapo-cli/.config', 'r')
+        file = open('./.tapo-cli/.config', 'r')
         config = json.loads(file.read())
 
         token = config['token']
@@ -173,7 +173,7 @@ def login(username, password):
     if 'errorMsg' in config:
         error(config)
 
-    file_path = os.path.expanduser('~') + '/.tapo-cli/'
+    file_path = './.tapo-cli/'
     file_name = '.config'
     if not os.path.exists(file_path): os.makedirs(file_path)
     with open(file_path + file_name, 'w+') as file:
@@ -300,14 +300,13 @@ def list_videos(days):
 
 @click.command()
 @click.option('--days', default=1, prompt="Last X days", help='Last X days which you want to download videos for.')
-@click.option('--path', default="~/", prompt="Path", help='Path where you want your videos to be downloaded. It will create directories based on dates.')
+@click.option('--path', default="./", prompt="Path", help='Path where you want your videos to be downloaded. It will create directories based on dates.')
 @click.option('--overwrite', default=0, prompt="Overwrite", help='Overwrite any files using the same name in the same location.')
 def download_videos(days, path, overwrite):
     """Downloads videos for the last X days to path."""
     get_config() # Checks if logged in
     
     path = path if path[-1] == '/' else path + '/'
-    path = os.path.expanduser(path)
     
     endpoint = '/api/v2/common/getDeviceListByPage'
     content = '{"deviceTypeList":["SMART.IPCAMERA"],"index":0,"limit":20}'
