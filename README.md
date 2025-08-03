@@ -16,7 +16,7 @@ pip3 install -r requirements.txt
 chmod +x tapo-cli.py
 ./tapo-cli.py login
 ./tapo-cli.py list-videos
-./tapo-cli.py download-videos
+./tapo-cli.py download-videos --days 40 --path ./TapoVideos --overwrite 0
 ```
 
 For additional information and options, please refer to `./tapo-cli.py --help` and `./tapo-cli.py [COMMAND] --help`.
@@ -26,7 +26,7 @@ For additional information and options, please refer to `./tapo-cli.py --help` a
 To automate daily backups on Windows, create a `.bat` file with the following content and schedule it to run once per day using Task Scheduler:
 
 ```
-ubuntu.exe run "$(pwd)/tapo-cli.py download-videos --days 7 --path /mnt/c/TapoBackups --overwrite 0"
+ubuntu.exe run "$(pwd)/tapo-cli.py download-videos --days 7 --path /mnt/c/TapoVideos --overwrite 0"
 ```
 
 This process requires the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install). You may also choose to schedule the task to run upon system logon.
@@ -41,7 +41,7 @@ sudo crontab -e
 Then, append a line similar to the one below, adjusted to match your specific paths:
 
 ```
-30 4 * * * cd /path/to/tapo-cli && ./tapo-cli.py download-videos --days 7 --path ./TapoBackups --overwrite 0
+30 4 * * * cd /path/to/tapo-cli && ./tapo-cli.py download-videos --days 7 --path ./TapoVideos --overwrite 0
 ```
 
 This will schedule the task to run at 4:30 AM every day.
